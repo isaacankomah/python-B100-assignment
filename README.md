@@ -58,9 +58,9 @@ Example of adding a book:
 ```text
 Enter your choice: 1
 Enter ISBN: 9781234567890
-Enter title: Introduction to Python
-Enter author: John Smith
-Enter category: Programming
+Enter title: Introduction to Chemistry
+Enter author: Isaac Ankomah
+Enter category: Chemistry
 Book added successfully.
 ```
 
@@ -68,7 +68,7 @@ Example of registering a member:
 
 ```text
 Enter your choice: 2
-Enter member ID: M001
+Enter member ID: ANKOLIB001
 Enter member name: Isaac Ankomah
 Enter member email: isaackkankomah@gmail.com
 Member registered successfully.
@@ -78,7 +78,7 @@ Example of borrowing a book:
 
 ```text
 Enter your choice: 4
-Enter member ID: M001
+Enter member ID: ANKOLIB001
 Enter ISBN of book to borrow: 9781234567890
 Book borrowed successfully.
 ```
@@ -87,7 +87,7 @@ Example of returning a book:
 
 ```text
 Enter your choice: 5
-Enter member ID: M001
+Enter member ID: ANKOLIB001
 Enter ISBN of book to return: 9781234567890
 Book returned successfully.
 ```
