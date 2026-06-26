@@ -13,22 +13,27 @@ class Member:
 
     def display_info(self):
         """Return a readable description of the member."""
-        # TODO: Return a string with member ID, name, email, and number of
-        # borrowed books.
-        pass
+        return (
+            f"Member ID: {self.member_id}, Name: {self.name}, "
+            f"Email: {self.email}, Borrowed Books: {len(self.borrowed_books)}"
+        )
 
     def borrow(self, isbn):
         """Add a borrowed book ISBN to the member's list."""
-        # TODO: Add isbn to borrowed_books only if it is not already there.
-        pass
+        if isbn not in self.borrowed_books:
+            self.borrowed_books.append(isbn)
+            return True
+        return False
 
     def return_book(self, isbn):
         """Remove a returned book ISBN from the member's list."""
-        # TODO: Remove isbn if it exists in borrowed_books.
-        pass
+        if isbn in self.borrowed_books:
+            self.borrowed_books.remove(isbn)
+            return True
+        return False
 
     def list_borrowed_books(self):
         """Return all borrowed book ISBNs."""
-        # TODO: Return the borrowed_books list or a readable string.
-        pass
-
+        if not self.borrowed_books:
+            return "No borrowed books."
+        return ", ".join(self.borrowed_books)
