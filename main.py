@@ -1,8 +1,98 @@
 """Main menu for the library management system."""
 
 from book import Book
+from data_handler import read_csv, write_csv
 from library import Library
+from loan_record import LoanRecord
 from member import Member
+
+
+BOOKS_FILE = "data/books.csv"
+MEMBERS_FILE = "data/members.csv"
+LOANS_FILE = "data/loans.csv"
+
+BOOK_FIELDS = ["isbn", "title", "author", "category", "is_available"]
+MEMBER_FIELDS = ["member_id", "name", "email", "borrowed_books"]
+LOAN_FIELDS = [
+    "record_id",
+    "member_id",
+    "isbn",
+    "borrow_date",
+    "return_date",
+    "status",
+]
+
+
+def load_library():
+    """Load saved books, members, and loans from CSV files."""
+    library = Library("Community Library")
+
+    for row in read_csv(BOOKS_FILE):
+        is_available = row["is_available"] == "True"
+        book = Book(
+            row["isbn"],
+            row["title"],
+            row["author"],
+            row["category"],
+            is_available,
+        )
+        library.add_book(book)
+
+    for row in read_csv(MEMBERS_FILE):
+        member = Member(row["member_id"], row["name"], row["email"])
+        borrowed_books = row["borrowed_books"]
+
+        if borrowed_books:
+            member.borrowed_books = borrowed_books.split("|")
+
+        library.register_member(member)
+
+    for row in read_csv(LOANS_FILE):
+        loan = LoanRecord(
+            row["record_id"],
+            row["member_id"],
+            row["isbn"],
+            row["borrow_date"],
+            row["return_date"] or None,
+            row["status"],
+        )
+        library.loan_records.append(loan)
+
+    return library
+
+
+def save_library(library):
+    """Save books, members, and loans to CSV files."""
+    book_rows = []
+    for book in library.books:
+        book_rows.append(
+            {
+                "isbn": book.isbn,
+                "title": book.title,
+                "author": book.author,
+                "category": book.category,
+                "is_available": str(book.is_available),
+            }
+        )
+
+    member_rows = []
+    for member in library.members:
+        member_rows.append(
+            {
+                "member_id": member.member_id,
+                "name": member.name,
+                "email": member.email,
+                "borrowed_books": "|".join(member.borrowed_books),
+            }
+        )
+
+    loan_rows = []
+    for loan in library.loan_records:
+        loan_rows.append(loan.create_record())
+
+    write_csv(BOOKS_FILE, BOOK_FIELDS, book_rows)
+    write_csv(MEMBERS_FILE, MEMBER_FIELDS, member_rows)
+    write_csv(LOANS_FILE, LOAN_FIELDS, loan_rows)
 
 
 def show_menu():
@@ -104,7 +194,7 @@ def list_members_menu(library):
 
 def main():
     """Run the menu-driven program."""
-    library = Library("Community Library")
+    library = load_library()
 
     while True:
         show_menu()
@@ -117,14 +207,18 @@ def main():
 
         if choice == 1:
             add_book_menu(library)
+            save_library(library)
         elif choice == 2:
             register_member_menu(library)
+            save_library(library)
         elif choice == 3:
             search_book_menu(library)
         elif choice == 4:
             borrow_book_menu(library)
+            save_library(library)
         elif choice == 5:
             return_book_menu(library)
+            save_library(library)
         elif choice == 6:
             list_books_menu(library)
         elif choice == 7:

@@ -1,1 +1,2 @@
 record_id,member_id,isbn,borrow_date,return_date,status
+L001,ANKOLIB001,9781234567890,2026-06-26,2026-06-26,returned
