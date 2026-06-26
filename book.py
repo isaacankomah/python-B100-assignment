@@ -14,24 +14,33 @@ class Book:
 
     def display_info(self):
         """Return a readable description of the book."""
-        # TODO: Return a string that includes the title, author, ISBN,
-        # category, and availability.
-        pass
+        status = "Available" if self.is_available else "Borrowed"
+        return (
+            f"ISBN: {self.isbn}, Title: {self.title}, Author: {self.author}, "
+            f"Category: {self.category}, Status: {status}"
+        )
 
     def borrow_book(self):
         """Mark the book as borrowed if it is available."""
-        # TODO: Use an if statement to check availability.
-        # If the book is available, change is_available to False.
-        # Return True when borrowing succeeds and False otherwise.
-        pass
+        if self.is_available:
+            self.is_available = False
+            return True
+        return False
 
     def return_book(self):
         """Mark the book as available again."""
-        # TODO: Set is_available back to True.
-        pass
+        self.is_available = True
+        return True
 
     def update_details(self, title=None, author=None, category=None):
         """Update book details when new values are provided."""
-        # TODO: Use conditionals to update only the values that are not None.
-        pass
+        if title is not None:
+            self.title = title
 
+        if author is not None:
+            self.author = author
+
+        if category is not None:
+            self.category = category
+
+        return True
