@@ -25,21 +25,29 @@ class LoanRecord:
 
     def create_record(self):
         """Return the loan record details as a dictionary."""
-        # TODO: Return a dictionary version of this record.
-        pass
+        return {
+            "record_id": self.record_id,
+            "member_id": self.member_id,
+            "isbn": self.isbn,
+            "borrow_date": self.borrow_date,
+            "return_date": self.return_date,
+            "status": self.status,
+        }
 
     def close_record(self):
         """Close the record when a book is returned."""
-        # TODO: Set return_date to today's date and status to returned.
-        pass
+        self.return_date = str(date.today())
+        self.status = "returned"
+        return True
 
     def display_record(self):
         """Return a readable loan record summary."""
-        # TODO: Return a formatted string with record details.
-        pass
+        return (
+            f"Record ID: {self.record_id}, Member ID: {self.member_id}, "
+            f"ISBN: {self.isbn}, Borrow Date: {self.borrow_date}, "
+            f"Return Date: {self.return_date}, Status: {self.status}"
+        )
 
     def is_active(self):
         """Check whether the record is still active."""
-        # TODO: Return True if status is active, otherwise False.
-        pass
-
+        return self.status == "active"
